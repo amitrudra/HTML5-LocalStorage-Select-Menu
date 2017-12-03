@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTML5 - LocalStorage</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js">
+  </script>
+  <style type="text/css">
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+			color: #333;
+		}
+		.listing {
+			margin: 0;
+			padding: 0;
+		}
+
+		.listing li {
+			display: inline-block;
+			background: #fff;
+			color: #333;
+			border: 1px solid #ddd;
+			width: 200px;
+			height: 200px;
+			margin: 5px;
+
+			font-size: 3em;
+			text-align: center;
+			line-height: 4;
+		}
+
+		.listing li.active{
+			color: #fff;
+            background: rgb(196, 5, 5);
+        }		
+  </style>
+</head>
+<body>
+  <h1>HTML5 - LocalStorage</h1>
+  <ul class="listing">
+    <li class="active">1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+  </ul>
+
+  <button type="button" id="refresh" value="Refresh Page" >Refresh Page</button>
+
+  <script type="text/javascript">
+	$(document).ready(function() {
+		if(typeof localStorage.counter === "undefined") {
+			// will be executed when the website is loading for the first time
+			var selectedElement = $("li.active");
+			var indexOfSelectedElement;
+			if(selectedElement.length) {
+				indexOfSelectedElement = $("li").index(selectedElement); 
+			} else {
+				indexOfSelectedElement = 0;
+			}
+			localStorage.counter=indexOfSelectedElement;
+		} else {
+			// will be executed when the refresh occurs
+			localStorage.counter = parseInt(localStorage.counter) + 1;
+		}
+
+		//when the last li is active moving value to 0
+		if(parseInt(localStorage.counter)>($("li").length-1)) {
+			localStorage.counter = 0;
+		}
+
+		// marking proper index's li as active
+		$("li").removeClass("active");
+		$("li").eq(parseInt(localStorage.counter)).addClass("active");
+
+
+
+		$('#refresh').click(function() {
+			location.reload();
+		});
+	});
+  </script>
+</body>
+</html>
